@@ -1,0 +1,23 @@
+name: SPIRAL AI iOS Build Preparation
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-ios,x86_64-apple-ios,aarch64-apple-ios-sim
+      - run: npm install
+      - run: npx tauri ios init
+      - run: npx tauri ios build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: spiral-ai-ios-build
+          path: src-tauri/gen/ios
+          if-no-files-found: warn

@@ -1,0 +1,27 @@
+name: SPIRAL AI Android Build
+on:
+  workflow_dispatch:
+  push:
+    tags: ['android-v*']
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-linux-android,armv7-linux-androideabi,i686-linux-android,x86_64-linux-android
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: 'platform-tools platforms;android-35 build-tools;35.0.0'
+      - run: npm install
+      - run: npx tauri android init
+      - run: npx tauri android build --apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: spiral-ai-android
+          path: src-tauri/gen/android/app/build/outputs/apk/**/*.apk
