@@ -1,0 +1,12 @@
+{
+  "name":"SPIRAL AI",
+  "short_name":"SPIRAL",
+  "description":"SPIRAL AI cross-platform workspace",
+  "start_url":"/",
+  "display":"standalone",
+  "background_color":"#0b0d10",
+  "theme_color":"#0b0d10",
+  "icons":[
+    {"src":"/spiral.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}
